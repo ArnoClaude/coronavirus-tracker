@@ -10,31 +10,38 @@
 
   <body>
    <div class="container">
+   <style>
+     h2 {
+       padding-top: 35px;
+       padding-bottom: 35px;
+     }
+     </style>
     <title>Coronavirus Tracker</title>
-    <h1>This application lists all confirmed cases of coronaviruses</h1>
+    <h2>This application lists all confirmed coronavirus cases</h1>
 
-    <div class="jumbotron">
-      <h1 class="display-4" th:text="${totalReportedCases}"></h1>
-      <p class="lead">Total number of cases as of today</p>
-      <hr class="my-4">
-      <p>
-        <span>New cases reported since yesterday:</span>
-        <span th:text="${totalNewCases}"></span>
-      </p>
-      </hr>
-    </div>
+<div class="jumbotron">
+  <h1 class="display-4" th:text="${totalReportedCases}"></h1>
+  <p class="lead">Total number of cases as of today</p>
+  <hr class="my-4">
+   <p>
+    <span>New cases reported since yesterday:</span>
+    <span th:text="${totalNewCases}"></span>
+   </p>
+  <hr class="my-4">
+  <a class="btn btn-primary btn-lg" href="https://github.com/CSSEGISandData/COVID-19" role="button">Based on Johns Hopkins data repository</a>
+</div>
         <table class="table">
           <tr>
-            <th>State</th>
             <th>Country</th>
+            <th>State</th>
             <th>Total cases reported</th>
             <th>Changes since last day</th>
             <th>% Changes since last day</th>
 
           </tr>
           <tr th:each="locationStat : ${locationStats}">
-            <td th:text="${locationStat.state}"></td>
             <td th:text="${locationStat.country}"></td>
+            <td th:text="${locationStat.state}"></td>
             <td th:text="${locationStat.latestTotalCases}">0</td>
             <td th:text="${locationStat.diffFromPrevDay}">0</td>
             <td th:text="${locationStat.diffFromPrevDayPercentage}">0</td>

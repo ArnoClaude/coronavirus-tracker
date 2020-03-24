@@ -16,12 +16,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class CoronaVirusDataService {
 
-    private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
+    private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
     private List<LocationStats> allStats = new ArrayList<>();
 
     @PostConstruct //runs this method as soon as object gets created
@@ -45,11 +46,11 @@ public class CoronaVirusDataService {
             locationStat.setCountry(record.get("Country/Region"));
             int latestCases = 0;
             if (!record.get(record.size() - 1).equals("")) {
-                latestCases = Integer.parseInt(record.get(record.size() - 1));
+                latestCases = Integer.parseInt(record.get(record.size() - 2));
             }
             int prevDayCases = 0;
             if (!record.get(record.size() - 2).equals("")) {
-                prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+                prevDayCases = Integer.parseInt(record.get(record.size() - 3));
             }
             locationStat.setLatestTotalCases(latestCases);
             locationStat.setDiffFromPrevDay(latestCases - prevDayCases);
@@ -57,13 +58,19 @@ public class CoronaVirusDataService {
             if (prevDayCases != 0) {
                 diffFromPrevDayPercentage = (double) latestCases / (double) prevDayCases;
             }
+            diffFromPrevDayPercentage -= 1;
+            diffFromPrevDayPercentage *= 100;
+            diffFromPrevDayPercentage = (double) Math.round(diffFromPrevDayPercentage * 100d) / 100d;
+            if (diffFromPrevDayPercentage == -100.0) diffFromPrevDayPercentage = 0; //to avoid bug when no changes
             locationStat.setDiffFromPrevDayPercentage(diffFromPrevDayPercentage);
             newStats.add(locationStat);
         }
         this.allStats = newStats;
+        Collections.sort(allStats, (LocationStats a1, LocationStats a2) -> a2.getLatestTotalCases()-a1.getLatestTotalCases());
     }
 
     public List<LocationStats> getAllStats() {
         return allStats;
     }
+
 }

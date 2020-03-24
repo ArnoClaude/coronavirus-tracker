@@ -19,8 +19,8 @@ public class HomeController {
     public String home(Model model) {
         //those attributes get called in the html file
         List<LocationStats> allStats = coronaVirusDataService.getAllStats();
-        int totalCases = allStats.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
-        int totalNewCases = allStats.stream().mapToInt(stat -> stat.getDiffFromPrevDay()).sum();
+        int totalCases = allStats.stream().mapToInt(LocationStats::getLatestTotalCases).sum();
+        int totalNewCases = allStats.stream().mapToInt(LocationStats::getDiffFromPrevDay).sum();
         model.addAttribute("locationStats", allStats);
         model.addAttribute("totalReportedCases", totalCases);
         model.addAttribute("totalNewCases", totalNewCases);

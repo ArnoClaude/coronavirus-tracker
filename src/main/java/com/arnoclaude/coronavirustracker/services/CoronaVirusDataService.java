@@ -24,6 +24,7 @@ public class CoronaVirusDataService {
 
     private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
     private List<LocationStats> allStats = new ArrayList<>();
+    private boolean sorting = true; //true=nach total cases; false=nach absolutem anstieg
 
     @PostConstruct //runs this method as soon as object gets created
     @Scheduled(cron = "* * 1 * * *") //second minute hour day month year    //this will update first hour of every day
@@ -66,11 +67,22 @@ public class CoronaVirusDataService {
             newStats.add(locationStat);
         }
         this.allStats = newStats;
-        Collections.sort(allStats, (LocationStats a1, LocationStats a2) -> a2.getLatestTotalCases()-a1.getLatestTotalCases());
+        if (sorting == true) {
+            Collections.sort(allStats, (LocationStats a1, LocationStats a2) -> a2.getLatestTotalCases() - a1.getLatestTotalCases());
+        } else if (sorting == false) {
+            Collections.sort(allStats, (LocationStats a1, LocationStats a2) -> a2.getDiffFromPrevDay() - a1.getDiffFromPrevDay());
+        }
     }
 
     public List<LocationStats> getAllStats() {
         return allStats;
+    }
+
+    public void swapSort() throws IOException, InterruptedException {
+        System.out.println("swapSort called");
+        if (sorting == true) sorting = false;
+        else if (sorting == false) sorting = true;
+        fetchVirusData();
     }
 
 }

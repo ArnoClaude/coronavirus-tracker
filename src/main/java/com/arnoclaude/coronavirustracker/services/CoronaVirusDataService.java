@@ -25,6 +25,7 @@ public class CoronaVirusDataService {
 
     private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
     private static String DEATHS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+    private static String RECOVERED_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
     private List<LocationStats> allStats = new ArrayList<>();
     private boolean sorting = true; //true=nach total cases; false=nach absolutem anstieg
 
@@ -34,6 +35,7 @@ public class CoronaVirusDataService {
         List<LocationStats> newStats = new ArrayList<>();   //newStats for concurrency reasons. The method takes some time to populate newStats
         //and then newStats get copied to allStats. That way if someone calls allStats while newStats
         //is getting populated, they don't get an error
+        // For parsing the maininfo.csv
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(VIRUS_DATA_URL))
@@ -44,7 +46,7 @@ public class CoronaVirusDataService {
         StringReader csvBodyReader = new StringReader(httpResponse.body());
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
 
-        //
+        // For parsing the deaths.csv file
         HttpClient client2 = HttpClient.newHttpClient();
         HttpRequest request2 = HttpRequest.newBuilder()
                 .uri(URI.create(DEATHS_DATA_URL))
@@ -83,7 +85,6 @@ public class CoronaVirusDataService {
             diffFromPrevDayPercentage = (double) Math.round(diffFromPrevDayPercentage * 100d) / 100d;
             if (diffFromPrevDayPercentage == -100.0) diffFromPrevDayPercentage = 0; //to avoid bug when no changes
             locationStat.setDiffFromPrevDayPercentage(diffFromPrevDayPercentage);
-            System.out.println(dummy2.size()-1);
             locationStat.setLatestTotalDeaths(Integer.parseInt(dummy2.get(dummy2.size() - 1)));
             newStats.add(locationStat);
         }

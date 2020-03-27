@@ -12,8 +12,8 @@
    <div class="container">
    <style>
      h2 {
-       padding-top: 35px;
-       padding-bottom: 35px;
+       padding-top: 25px;
+       padding-bottom: 25px;
      }
      </style>
     <title>Coronavirus Tracker</title>
@@ -30,43 +30,43 @@
   <hr class="my-4">
   <a class="btn btn-primary btn-lg" href="https://github.com/CSSEGISandData/COVID-19" role="button">Based on Johns Hopkins data repository</a>
 </div>
-
-<div class="jumbotron">
-  <h3>My favourite resources to get information on the corona virus</h3>
-   <hr class="my-4">
-  <p class="lead">People</p>
-   <a href="https://en.wikipedia.org/wiki/Christian_Drosten" class="btn btn-success" role="button target="_blank"">Christian Drosten</a>
-   <hr class="my-4">
-  <p class="lead">Videos</p>
-   <a href="https://www.youtube.com/watch?v=BtN-goy9VOY" class="btn btn-primary" role="button">Kurzgesagt: The Coronavirus Explained & What You Should Do</a>
-     <hr class="my-4">
-  <p class="lead">Articles</p>
-     <a href="https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca" class="btn btn-warning" role="button target="_blank"">Coronavirus: Why You Must Act Now</a>
-   <hr class="my-4">
-  <p class="lead">Others</p>
-     <a href="https://coronavirus.jhu.edu/map.html" class="btn btn-info" role="button target="_blank"">Interactive map</a>
-</div>
         <table class="table">
           <tr>
-            <th>Country</th>
-            <th>State</th>
-            <th>Total cases reported</th>
-            <th>Changes since last day</th>
-            <th>% Changes since last day</th>
-            <th>Total deaths reported</th>
-
+            <th class="text-left">Country</th>
+            <th class="text-left">State</th>
+            <th class="text-left">Total cases reported</th>
+            <th class="text-left">Changes in total cases since last day</th>
+            <th class="text-left">% Changes in total cases since last day</th>
+            <th class="text-left">Total deaths reported</th>
+            <th class="text-left">Changes in deaths since last day</th>
           </tr>
           <tr th:each="locationStat : ${locationStats}">
-            <td th:text="${locationStat.country}"></td>
-            <td th:text="${locationStat.state}"></td>
-            <td th:text="${locationStat.latestTotalCases}">0</td>
-            <td th:text="${locationStat.diffFromPrevDay}">0</td>
-            <td th:text="${locationStat.diffFromPrevDayPercentage}">0</td>
-            <td th:text="${locationStat.latestTotalDeaths}">0</td>
+            <td th:text="${locationStat.country}" class="text-left"></td>
+            <td th:text="${locationStat.state}" class="text-left"></td>
+            <td th:text="${locationStat.latestTotalCases}" class="text-left">0</td>
+            <td th:text="${locationStat.diffFromPrevDay}" class="text-left">0</td>
+            <td th:text="${locationStat.diffFromPrevDayPercentage}" class="text-left">0</td>
+            <td th:text="${locationStat.latestTotalDeaths}" class="text-left">0</td>
+            <td th:text="${locationStat.deathsDiffFromPrevDay}" class="text-left">0</td>
           </tr>
         </table>
+
+        <div class="jumbotron">
+                 <h3>My favourite resources to get information on the corona virus</h3>
+                  <hr class="my-4">
+                 <p class="lead">People</p>
+                  <a href="https://en.wikipedia.org/wiki/Christian_Drosten" class="btn btn-success" role="button target="_blank"">Christian Drosten</a>
+                  <hr class="my-4">
+                 <p class="lead">Videos</p>
+                  <a href="https://www.youtube.com/watch?v=BtN-goy9VOY" class="btn btn-primary" role="button">Kurzgesagt: The Coronavirus Explained & What You Should Do</a>
+                    <hr class="my-4">
+                 <p class="lead">Articles</p>
+                    <a href="https://medium.com/@tomaspueyo/coronavirus-act-today-or-people-will-die-f4d3d9cd99ca" class="btn btn-warning" role="button target="_blank"">Coronavirus: Why You Must Act Now</a>
+                  <hr class="my-4">
+                 <p class="lead">Others</p>
+                    <a href="https://coronavirus.jhu.edu/map.html" class="btn btn-info" role="button target="_blank"">Interactive map</a>
+               </div>
+
        </div>
-
   </body>
-
 </html>

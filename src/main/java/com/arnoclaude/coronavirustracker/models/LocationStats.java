@@ -8,6 +8,15 @@ public class LocationStats {
     private int diffFromPrevDay;
     private double diffFromPrevDayPercentage;
     private int latestTotalDeaths;
+    private int deathsDiffFromPrevDay;
+
+    public int getDeathsDiffFromPrevDay() {
+        return deathsDiffFromPrevDay;
+    }
+
+    public void setDeathsDiffFromPrevDay(int deathsDiffFromPrevDay) {
+        this.deathsDiffFromPrevDay = deathsDiffFromPrevDay;
+    }
 
     public int getLatestTotalDeaths() {
         return latestTotalDeaths;

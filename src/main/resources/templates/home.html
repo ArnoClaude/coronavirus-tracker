@@ -38,6 +38,7 @@
             <th>Total cases reported</th>
             <th>Changes since last day</th>
             <th>% Changes since last day</th>
+            <th>Total deaths reported</th>
 
           </tr>
           <tr th:each="locationStat : ${locationStats}">
@@ -46,6 +47,7 @@
             <td th:text="${locationStat.latestTotalCases}">0</td>
             <td th:text="${locationStat.diffFromPrevDay}">0</td>
             <td th:text="${locationStat.diffFromPrevDayPercentage}">0</td>
+            <td th:text="${locationStat.latestTotalDeaths}">0</td>
           </tr>
         </table>
        </div>
